@@ -277,5 +277,38 @@ namespace UnmatchedSocksSorter
 
             return matchedSocks;
         }
+
+        public List<Sock> HashSort(List<Sock> unmatchedSocks)
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            List<Sock> matchedSocks = new List<Sock>(unmatchedSocks.Count);
+
+            var waitingForMatch = new Sock[80]; // Colors << 2 (Lengths) << 2 (Owners)
+            for (var index = unmatchedSocks.Count - 1; index >= 0; index--)
+            {
+                var sock = unmatchedSocks[index];
+                unmatchedSocks.RemoveAt(index);
+                var bucket = ((int) sock.Color << 4) +
+                    ((int) sock.Length << 2) +
+                    (int) sock.Owner;
+
+                if (waitingForMatch[bucket] != null)
+                {
+                    matchedSocks.Add(sock);
+                    matchedSocks.Add(waitingForMatch[bucket]);
+                    waitingForMatch[bucket] = null;
+                }
+                else
+                {
+                    waitingForMatch[bucket] = sock;
+                }
+            }
+
+            watch.Stop();
+            Console.WriteLine("Completed Hash Sort in " + watch.ElapsedMilliseconds.ToString() + " milliseconds.");
+
+            return matchedSocks;
+        }
     }
 }

@@ -51,6 +51,11 @@ namespace UnmatchedSocksSorter
                         CheckIfSorted(socks);
                         break;
 
+                    case '7':
+                        socks = sorter.HashSort(socks);
+                        CheckIfSorted(socks);
+                        break;
+
                     case 'L':
                         ListSocks(socks);
                         break;
@@ -75,6 +80,7 @@ namespace UnmatchedSocksSorter
             Console.WriteLine("4 - Three-Level Pile Sort (By Color, Length, and Owner)");
             Console.WriteLine("5 - Special Sort");
             Console.WriteLine("6 - Dictionary Sort");
+            Console.WriteLine("7 - Hash Sort");
             Console.WriteLine("L - List All Socks");
             Console.WriteLine("N - Generate New Sock Pile");
             Console.WriteLine("Q - Quit");
